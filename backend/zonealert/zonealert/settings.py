@@ -132,5 +132,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # IBM Watson API credentials
+WEATHER_API_KEY = config('WEATHER_API_KEY')
 WATSON_API_KEY = config('WATSON_API_KEY')
 WATSON_SERVICE_URL = config('WATSON_SERVICE_URL')
