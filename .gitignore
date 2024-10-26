@@ -1,0 +1,46 @@
+# Python/Django
+*.pyc
+__pycache__/
+db.sqlite3
+*.log
+*.env
+/static/
+media/
+venv/
+*.egg-info/
+*.sqlite3
+
+# React Native
+# Node.js modules
+node_modules/
+# Build artifacts
+build/
+dist/
+# React Native packager
+packager-cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# Metro bundler cache
+metro-*
+# iOS build files
+ios/build/
+ios/Pods/
+ios/Podfile.lock
+# Android build files
+android/.gradle/
+android/app/build/
+android/app/src/main/assets/index.android.bundle
+# Environment files
+.env
+.env.*.local
+
+# VS Code settings
+.vscode/
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Operating System files
+.DS_Store
+Thumbs.db
