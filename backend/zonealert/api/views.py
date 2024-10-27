@@ -4,19 +4,35 @@ from rest_framework.response import Response
 from ibm_watsonx_ai.foundation_models import ModelInference
 from ibm_watsonx_ai import APIClient, Credentials
 from django.conf import settings
-from noaa_sdk import NOAA
-import json
+import requests
 
-n = NOAA()
-observations = n.get_observations('32607', 'US')
-weather_info = {
-    "temperature": observations['temperature']['value'],
-    "wind_speed": observations['windSpeed']['value'],
-    "wind_direction": observations['windDirection']['value'],
-    "cloud_coverage": observations['textDescription'],
-    "visibility": observations['visibility']['value'],
-    "humidity": observations['relativeHumidity']['value']
-}
+def get_weather(city):
+    api_key = settings.WEATHER_API_KEY  # Replace with your OpenWeather API key
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=imperial'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        main = data['main']
+        weather = data['weather'][0]
+
+        temperature = main['temp']
+        pressure = main['pressure']
+        humidity = main['humidity']
+        description = weather['description']
+
+        return {
+            "city": city,
+            "temperature": temperature,
+            "pressure": pressure,
+            "humidity": humidity,
+            "description": description.capitalize()
+        }
+    else:
+        print("Error:", response.status_code, response.json())
+        return None
+    
+weather_data = get_weather("Gainesville, Florida")
 
 credentials = Credentials(
     url = "https://us-south.ml.cloud.ibm.com",
@@ -32,21 +48,27 @@ model = ModelInference(
   params={"max_new_tokens": 100}
 )
 
-prompt = {
-    "text": "Watson, based on the current weather conditions, what are the safest shelters in Gainesville, Florida?",
-    "entities": {
-        "location": {
-            "value": "Gainesville, Florida"
-        },
-        "weather": {
-            "value": json.dumps(weather_info)  # Include all observations as JSON
-        }
-    }
-}
+# prompt = {
+#     "text": "Watson, based on the current weather conditions, what are the safest shelters in Gainesville, Florida?",
+#     "entities": {
+#         "location": {
+#             "value": "Gainesville, Florida"
+#         },
+#         "shelters": {
+#             "value": "list of safe shelters"
+#         },
+#         "weather": {
+#             "value": 
+#         }
+#     }
+# }
 
-        # "shelters": {
-        #     "value": "list of safe shelters"
-        # },
+prompt = (f"Current weather in {weather_data['city']}:\n"
+              f"Temperature: {weather_data['temperature']}°F\n"
+              f"Pressure: {weather_data['pressure']} hPa\n"
+              f"Humidity: {weather_data['humidity']}%\n"
+              f"Description: {weather_data['description']}\n"
+              "Is it safe to go outside?")
 
 @api_view(['GET'])
 def map(request):
