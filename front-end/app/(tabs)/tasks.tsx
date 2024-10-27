@@ -4,12 +4,21 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native
 export default function Tasks() {
 
   const [tasks, setTasks] = useState([
+<<<<<<< HEAD
     { id: '1', title: 'Buy canned food' },
     { id: '2', title: 'Fill up gas' },
     { id: '3', title: 'Store valuables in waterproof packaging' },
     { id: '4', title: 'Buy lanterns' },
     { id: '5', title: 'Put up storm shutters' },
     { id: '6', title: 'Fill up bathtub' },
+=======
+    { id: '1', title: 'Buy groceries' },
+    { id: '2', title: 'Walk the dog' },
+    { id: '3', title: 'Finish React Native project' },
+    { id: '4', title: 'Read a new book' },
+    { id: '5', title: 'Prepare dinner' },
+    { id: '6', title: 'Exercise for 30 mins' },
+>>>>>>> 730b1bb81683292ae50f4e1a6e6e76a094f0f0d4
     { id: '7', title: 'Plan weekend trip' },
     { id: '8', title: 'Check emails' },
     { id: '9', title: 'Clean the house' },
