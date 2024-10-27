@@ -45,30 +45,90 @@ model = ModelInference(
   model_id="ibm/granite-13b-chat-v2",
   api_client=client,
   project_id= settings.PROJECT_ID,
-  params={"max_new_tokens": 100}
+  params={"max_new_tokens": 1000}
 )
 
-# prompt = {
-#     "text": "Watson, based on the current weather conditions, what are the safest shelters in Gainesville, Florida?",
-#     "entities": {
-#         "location": {
-#             "value": "Gainesville, Florida"
-#         },
-#         "shelters": {
-#             "value": "list of safe shelters"
-#         },
-#         "weather": {
-#             "value": 
-#         }
-#     }
-# }
+# # Shelters information
+shelters = [
+    {
+        "name": "GRACE Marketplace",
+        "latitude": 29.680760,
+        "longitude": -82.309170,
+        "good_for": ["Cold shelter", "Severe weather shelter"]
+    },
+    {
+        "name": "Southwest Recreation Center",
+        "latitude": 29.638060,
+        "longitude": -82.368553,
+        "good_for": ["Severe weather shelter", "Flood-prone areas", "Substandard housing"]
+    },
+    {
+        "name": "The Martin Luther King Jr. Multipurpose Center",
+        "latitude": 29.661190,
+        "longitude": -82.307790,
+        "good_for": ["Severe weather shelter"]
+    },
+    {
+        "name": "The Easton-Newberry Sports Complex",
+        "latitude": 29.669300,
+        "longitude": -82.602410,
+        "good_for": ["Severe weather shelter"]
+    },
+    {
+        "name": "Saint Francis House",
+        "latitude": 29.648080,
+        "longitude": -82.324610,
+        "good_for": ["Cold shelter"]
+    },
+    {
+        "name": "FW Buchholz Senior HS",
+        "latitude": 29.67776870727539,
+        "longitude": -82.40684509277344,
+        "good_for": ["Severe weather shelter"]
+    },
+    {
+        "name": "Santa Fe HS",
+        "latitude": 29.8037703,
+        "longitude": -82.5231457,
+        "good_for": ["Severe weather shelter"]
+    },
+    {
+        "name": "Easton-Newberry Sports Complex",
+        "latitude": 26.1773507,
+        "longitude": -80.1628684,
+        "good_for": ["Severe weather shelter"]
+    },
+    {
+        "name": "Marjorie K Rawlings ES",
+        "latitude": 29.6846141,
+        "longitude": -82.3074232,
+        "good_for": ["Severe weather shelter"]
+    },
+    {
+        "name": "Waldo Community School",
+        "latitude": 29.791079,
+        "longitude": -82.174658,
+        "good_for": ["Severe weather shelter"]
+    },
+]
 
-prompt = (f"Current weather in {weather_data['city']}:\n"
-              f"Temperature: {weather_data['temperature']}°F\n"
-              f"Pressure: {weather_data['pressure']} hPa\n"
-              f"Humidity: {weather_data['humidity']}%\n"
-              f"Description: {weather_data['description']}\n"
-              "Is it safe to go outside?")
+# Format shelter information
+shelters_info = "\n".join(
+    [f"{shelter['name']} (Latitude: {shelter['latitude']}, Longitude: {shelter['longitude']}) - Good for: {', '.join(shelter['good_for'])}" for shelter in shelters]
+)
+
+# Weather data for the prompt
+prompt = (
+    f"Current weather in {weather_data['city']}:\n"
+    f"Temperature: {weather_data['temperature']}°F\n"
+    f"Pressure: {weather_data['pressure']} hPa\n"
+    f"Humidity: {weather_data['humidity']}%\n"
+    f"Description: {weather_data['description']}\n\n"
+    "Based on the current weather conditions, please recommend THREE of the safest shelters in Gainesville, Florida.\n"
+    "Provide their names along with locations (latitude and longitude) in a clear format:\n\n"
+    f"Here is a list of available shelters:\n{shelters_info}\n"
+    "Make sure the response is structured in json format."
+)
 
 @api_view(['GET'])
 def map(request):
