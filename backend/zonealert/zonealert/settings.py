@@ -16,7 +16,6 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -134,3 +133,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # IBM Watson API credentials
 WATSON_API_KEY = config('WATSON_API_KEY')
 WATSON_SERVICE_URL = config('WATSON_SERVICE_URL')
+
+DEREK_WATSON_API_KEY = config('DEREK_WATSON_API_KEY')
+PROJECT_ID = config('PROJECT_ID')
