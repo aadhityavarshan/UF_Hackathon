@@ -76,6 +76,8 @@ export default function Tasks() {
       color: '#387478',
       fontSize: 16,
       fontWeight: 'bold',
+      textAlign: 'right',
+      alignContent: 'center',
     },
     completeMessage: {
       fontSize: 24,
