@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "api",
-    "task",
 ]
 
 MIDDLEWARE = [
@@ -132,8 +131,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # IBM Watson API credentials
 WEATHER_API_KEY = config('WEATHER_API_KEY')
-WATSON_API_KEY = config('WATSON_API_KEY')
 WATSON_SERVICE_URL = config('WATSON_SERVICE_URL')
-
 DEREK_WATSON_API_KEY = config('DEREK_WATSON_API_KEY')
 PROJECT_ID = config('PROJECT_ID')
